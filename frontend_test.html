@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VK</title>
+    <style>
+        :root {
+            --back: #000000;
+            --white: #fff;
+            --border: #E5E5E5;
+            --sky: #5DA9E0;
+            --greay-text: #888888;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Helvetica', sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: var(--white);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--back);
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #copyright {
+            min-width: fit-content;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .header,
+        .footer,
+        .main,
+        .wrapper
+        .navigation {
+            width: 100%;
+        }
+
+        .header,
+        .footer {
+            background-color: var(--white);
+        }
+
+        .wrapper {
+            max-width: 1020px;
+            min-height: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        .container {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .burger-menu {
+            display: none;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        /* FLEX BLOCK STYLES START */
+        .flex {
+            display: flex;
+        }
+
+        .flex-row {
+            flex-direction: row;
+        }
+
+        .flex-align-items_center {
+            align-items: center;
+        }
+
+        .flex-align-items_flex-end {
+            align-items: flex-end;
+        }
+
+        .flex-justify-content_between {
+            justify-content: space-between;
+        }
+        /* FLEX BLOCK STYLES */
+
+
+        /* HEADER NAVIGATION STYLES START */
+        .header {
+            position: fixed;
+        }
+
+        .header .header__icon {
+            min-width: 52px;
+            height: 52px;
+            margin-right: 20px;
+        }
+
+        .header__nav-block {
+            margin: 10px 0;
+        }
+
+        .navigation .cross-icon {
+            display: none;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+        }
+
+        .navigation .navigation__list-item {
+            font-size: 18px;
+            font-weight: 400;
+            cursor: pointer;
+            margin-right: 30px;
+        }
+
+        .navigation .navigation__list-item:last-child {
+            margin-right: 0;
+        }
+
+        .auth-link {
+            min-width: fit-content;
+            text-transform: uppercase;
+        }
+        /* HEADER NAVIGATION STYLES END */
+
+
+        /* HEADER FORM STYLES START */
+        .form {
+            width: 100%;
+            border-top: 2px solid var(--border);
+            box-shadow: 0px 2px 4px 0px var(--border);
+            padding: 15px 0;
+        }
+
+        .form input:focus+label {
+            top: -15px;
+            transition: all .3s;
+        }
+
+        .form input.filled+label {
+            top: -15px;
+            transition: all .3s;
+        }
+
+        .form .form-content,
+        .form .form-fields {
+            width: 100%;
+        }
+
+        .form .form__input-wrap {
+            width: 100%;
+            max-width: 350px;
+            position: relative;
+            margin-right: 30px;
+        }
+
+        .form .form__input {
+            border: 0;
+            width: 100%;
+            border-bottom: 1px solid var(--border);
+            outline: none;
+        }
+
+        .form .form__label {
+            color: var(--greay-text);
+            font-size: 14px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: all .3s;
+        }
+
+        .form .form__button {
+            width: 100%;
+            max-width: 200px;
+            font-size: 14px;
+            color: var(--white);
+            padding: 7px;
+            border: none;
+            cursor: pointer;
+            background-color: var(--sky);
+            transition: background-color .3s;
+        }
+
+        .form .form__button:disabled {
+            background-color: var(--border);
+        }
+
+        .form .form__button.invalid {
+            cursor: not-allowed;
+            background-color: var(--border);
+            transition: background-color .3s;
+        }
+
+        /* HEADER FORM STYLES END */
+
+
+        /* MAIN STYLES START */
+        .main {
+            padding: 20px 0;
+            flex: 1 1 auto;
+            padding-top: 150px;
+        }
+
+        .main .section-status {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--sky);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main .section-results,
+        .main .results-list {
+            width: 100%;
+        }
+
+        .main .results-list {
+            display: grid;
+            row-gap: 20px;
+            column-gap: 50px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .main .results-list__item {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .main .results-list .results-list__item-title {
+            font-size: 14px;
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        .main .results-list .results-list__item-desc {
+            font-size: 12px;
+            font-weight: 400;
+            word-break: break-all;
+        }
+
+        /* MAIN STYLES END */
+
+
+        /* FOOTER STYLES START */
+        .footer {
+            box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.10);
+            padding: 20px 0;
+        }
+
+        .footer .navigation .navigation__list-item,
+        .footer .footer-contant {
+            width: 100%;
+        }
+
+        .footer .navigation .navigation__list-item-title {
+            font-weight: 700;
+        }
+
+        .footer .navigation .navigation__list__inner-list {
+            padding-top: 20px;
+        }
+
+        .footer .navigation .navigation__list__inner-list__item {
+            padding-bottom: 10px;
+        }
+
+        .footer .navigation .navigation__list__inner-list__item:last-child {
+            padding-bottom: 0;
+        }
+        /* FOOTER STYLES END */
+
+
+        /* RESPONCIVE START */
+        @media screen and (max-width: 1024px) {
+            .header .navigation {
+                display: none;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--border);
+                z-index: 9;
+            }
+
+            .header .navigation .navigation__list {
+                height: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header .burger-menu {
+                display: block;
+                margin: 0 auto;
+                margin-left: 0;
+            }
+
+            .navigation .navigation__list-item {
+                margin-right: 0;
+                padding-bottom: 10px;
+            }
+
+            .header.show-menu .navigation {
+                display: block;
+            }
+
+            .header.show-menu .navigation .cross-icon {
+                display: block;
+            }
+        }
+
+        @media screen and (max-width: 750px) {
+            .main {
+                padding-top: 200px;
+            }
+            .main .results-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form .form-content {
+                flex-direction: column;
+            }
+
+            .form .form__input-wrap {
+                margin-bottom: 20px;
+            }
+
+            .footer .footer-contant {
+                flex-direction: column;
+            }
+
+            #copyright {
+                padding-top: 20px;
+            }
+        }
+
+        @media screen and (max-width: 470px) {
+            .main .results-list {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .results-list .results-list__item {
+                max-width: 100%;
+            }
+
+            .footer .navigation {
+                max-width: fit-content;
+                margin: 0 auto;
+            }
+
+            .footer .navigation .navigation__list-item {
+                margin: 0;
+            }
+
+            .footer .navigation .navigation__list {
+                flex-direction: column;
+            }
+
+            .footer .navigation .navigation__list__inner-list {
+                padding-bottom: 30px;
+            }
+
+            #copyright {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        /* RESPONCIVE END */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER START -->
+        <header class="header">
+            <div class="wrapper">
+                <div class="header__nav-block flex flex-row flex-align-items_center flex-justify-content_between">
+                    <div class="header__icon">
+                        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect width="52" height="52" fill="url(#pattern0)" />
+                            <defs>
+                                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                    <use xlink:href="#image0_60_10" transform="scale(0.00390625)" />
+                                </pattern>
+                                <image id="image0_60_10" width="256" height="256"
+                                    xlink:href="data:image/png;base64,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" />
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <div class="burger-menu">
+                        <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                        <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                            <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                            <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+
+                    <nav class="navigation">
+                        <ul class="navigation__list flex flex-row flex-align-items_center">
+                            <li class="cross-icon">
+                                <?xml version="1.0" encoding="utf-8"?>
+                                <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M16 8L8 16M12 12L16 16M8 8L10 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </li>
+                            <li class="navigation__list-item">
+                                <a class="navigation__list-item-link" href="#">Menu Item 1</a>
+                            </li>
+                            <li class="navigation__list-item">
+                                <a class="navigation__list-item-link" href="#">Menu Item 2</a>
+                            </li>
+                            <li class="navigation__list-item">
+                                <a class="navigation__list-item-link" href="#">Menu Item 3</a>
+                            </li>
+                            <li class="navigation__list-item">
+                                <a class="navigation__list-item-link" href="#">Menu Item 4</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <a href="#" class="auth-link">log in / sign up</a>
+                </div>
+            </div>
+
+            <form id="form" class="form">
+                <div class="wrapper">
+                    <div class="form-content flex flex-align-items_center flex-justify-content_between">
+                        <div class="form-fields flex flex-align-items_center">
+                            <div class="form__input-wrap">
+                                <input class="form__input" type="number" id="fieldLength">
+                                <label class="form__label" for="fieldLength">Length</label>
+                            </div>
+
+                            <div class="form__input-wrap">
+                                <input class="form__input" type="number" id="fieldLimit">
+                                <label class="form__label" for="fieldLimit">Limit</label>
+                            </div>
+                        </div>
+
+                        <button id="form-button" class="form__button">Start</button>
+                    </div>
+                </div>
+            </form>
+        </header>
+        <!-- HEADER END -->
+
+        <!-- MAIN START -->
+        <main class="main">
+            <div class="wrapper">
+                <section class="section-status">
+                    Progress: <span class="loaded-items">0</span> of <span class="array-length">0</span>
+                </section>
+
+                <section class="section-results">
+                    <ul class="results-list"></ul>
+                </section>
+            </div>
+        </main>
+        <!-- MAIN END -->
+
+        <!-- FOOTER START -->
+        <footer class="footer">
+            <div class="wrapper">
+                <div class="footer-contant flex flex-align-items_flex-end flex-justify-content_between">
+                    <nav class="navigation">
+                        <ul class="navigation__list flex flex-row">
+                            <li class="navigation__list-item">
+                                <span class="navigation__list-item-title">Menu Item 1</span>
+                                <ul class="navigation__list__inner-list">
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 1</a>
+                                    </li>
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 2</a>
+                                    </li>
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 3</a>
+                                    </li>
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 4</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="navigation__list-item">
+                                <span class="navigation__list-item-title">Menu Item 2</span>
+                                <ul class="navigation__list__inner-list">
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 1</a>
+                                    </li>
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Menu Item 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="navigation__list-item">
+                                <span class="navigation__list-item-title">Contacts</span>
+                                <ul class="navigation__list__inner-list">
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Phone</a>
+                                    </li>
+                                    <li class="navigation__list__inner-list__item">
+                                        <a class="navigation__list-item-link" href="#">Email</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div id="copyright">© Lev Tolstoy</div>
+                </div>
+            </div>
+        </footer>
+        <!-- FOOTER END -->
+    </div>
+
+    <script type="text/javascript">
+        "use strict";
+
+        window.addEventListener("load", async () => {
+            const textMock =
+                `Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don't tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that
+                Antichrist--I really believe he is Antichrist--I will have nothing more to do with you and you are no longer my friend, no longer my 'faithful slave,' as you call yourself! But how do you do? I see I have frightened you--sit down and tell me all the news."
+                It was in July, 1805, and the speaker was the well-known Anna Pavlovna Scherer, maid of honor and favorite of the Empress Marya Fedorovna. With these words she greeted Prince Vasili Kuragin, a man of high rank and importance, who was the first to arrive at her reception.
+                Anna Pavlovna had had a cough for some days. She was, as she said, suffering from la grippe; grippe being then a new word in St. Petersburg, used only by the elite.
+                All her invitations without exception, written in French, and delivered by a scarlet-liveried footman that morning, ran as follows:
+                If you have nothing better to do, Count [or Prince], and if the prospect of spending an evening with a poor invalid is not too terrible, I shall be very charmed to see you tonight between 7 and 10--Annette Scherer.
+                Heavens! what a virulent attack! replied the prince, not in the least disconcerted by this reception. He had just entered, wearing an embroidered court uniform, knee breeches, and shoes, and had stars on his breast and a serene expression on his flat face.
+                He spoke in that refined French in which our grandfathers not only spoke but thought, and with the gentle, patronizing intonation natural to a man of importance who had grown old in society and at court.
+                He went up to Anna Pavlovna, kissed her hand, presenting to her his bald, scented, and shining head, and complacently seated himself on the sofa.
+                First of all, dear friend, tell me how you are. Set your friend's mind at rest, said he without altering his tone, beneath the politeness and affected sympathy of which indifference and even irony could be discerned.
+                Can one be well while suffering morally? Can one be calm in times like these if one has any feeling? said Anna Pavlovna. "You are staying the whole evening, I hope?
+                And the fete at the English ambassador's? Today is Wednesday. I must put in an appearance there, said the prince. "My daughter is coming for me to take me there.
+                I thought today's fete had been canceled. I confess all these festivities and fireworks are becoming wearisome.
+                If they had known that you wished it, the entertainment would have been put off, said the prince, who, like a wound-up clock, by force of habit said things he did not even wish to be believed.
+                Don't tease! Well, and what has been decided about Novosiltsev's dispatch? You know everything.
+                What can one say about it? replied the prince in a cold, listless tone. What has been decided? They have decided that Buonaparte has burnt his boats, and I believe that we are ready to burn ours.
+                Prince Vasili always spoke languidly, like an actor repeating a stale part. Anna Pavlovna Scherer on the contrary, despite her forty years, overflowed with animation and impulsiveness. To be an enthusiast had become her social vocation and, sometimes even when she did not feel like it
+                she became enthusiastic in order not to disappoint the expectations of those who knew her.
+                The subdued smile which, though it did not suit her faded features, always played round her lips expressed, as in a spoiled child, a continual consciousness of her charming defect, which she neither wished, nor could, nor considered it necessary, to correct.
+                In the midst of a conversation on political matters Anna Pavlovna burst out:
+                Oh, don't speak to me of Austria. Perhaps I don't understand things, but Austria never has wished, and does not wish, for war.
+                She is betraying us! Russia alone must save Europe. Our gracious sovereign recognizes his high vocation and will be true to it.
+                That is the one thing I have faith in! Our good and wonderful sovereign has to perform the noblest role on earth, and he is so virtuous and noble that God will not forsake him. He will fulfill his vocation and crush the hydra of revolution, which has become more terrible than ever in the person of this murderer and villain!
+                We alone must avenge the blood of the just one....
+                Whom, I ask you, can we rely on?... England with her commercial spirit will not and cannot understand the Emperor Alexander's loftiness of soul. She has refused to evacuate Malta. She wanted to find, and still seeks, some secret motive in our actions. What answer did Novosiltsev get? None.
+                The English have not understood and cannot understand the self-abnegation of our Emperor who wants nothing for himself, but only desires the good of mankind. And what have they promised? Nothing! And what little they have promised they will not perform! Prussia has always declared that Buonaparte is invincible,
+                and that all Europe is powerless before him....
+                And I don't believe a word that Hardenburg says, or Haugwitz either. This famous Prussian neutrality is just a trap.
+                I have faith only in God and the lofty destiny of our adored monarch. He will save Europe!
+            `;
+
+            // Функция генерации рандомной строки
+            function generateRandomString(min = 10, max = 200) {
+                const length = Math.round(Math.random() * (max - min) + min);
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                let result = '';
+                const charactersLength = characters.length;
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+
+            // Отображения меню адаптива
+            const header = document.querySelector('.header');
+            header?.addEventListener('click', (event) => {
+                const burgerClassList = event.target.closest('.burger-menu')?.classList;
+                if (burgerClassList?.value === 'burger-menu') {
+                    header.classList.add('show-menu');
+                    return;
+                }
+
+                const crossClassList = event.target.closest('.cross-icon')?.classList;
+                if (crossClassList?.value === 'cross-icon') {
+                    header.classList.remove('show-menu');
+                }
+            });
+
+            const sectionStatus = document.querySelector('.section-status');
+            const loadedItems = sectionStatus.querySelector('.loaded-items');
+            const resultsList = document.querySelector('.results-list');
+            const form = document.getElementById("form");
+
+            // Проверка заполнености полей и изменение позиции лейбла инпута.
+            const inputsCollection = form.querySelectorAll(".form__input");
+            inputsCollection?.forEach((element) => {
+                element.addEventListener("focusout", (event) => {
+                    if (event.currentTarget.value) {
+                        event.currentTarget.classList.add("filled");
+                    } else {
+                        event.currentTarget.classList.remove("filled")
+                    }
+                });
+            });
+
+            // Запускает логику генерации рандомних строк и функцию queue
+            const button = form.querySelector('#form-button');
+            button?.addEventListener("click", async (event) => {
+                event.preventDefault();
+                reset(); // очистка данных в списке и статусе
+                const arrLength = inputsCollection[0].value;
+                const limit = inputsCollection[1].value;
+                if (arrLength.trim() && limit.trim()) {
+                    sectionStatus.querySelector('.array-length').innerHTML = arrLength;
+                    button.disabled = true;
+                    const randomStringsArr = new Array(+arrLength).fill('').map((_, index) => `${index + 1}. ${generateRandomString()}`);
+                    await queue(randomStringsArr, maperFn, +limit);
+                    button.disabled = false;
+                }
+            });
+
+            function reset() {
+                if (+loadedItems.innerHTML) { loadedItems.innerHTML = 0; }
+                if (resultsList.children.length) { resultsList.innerHTML = ''; }
+            }
+
+            // Добавляет новый елемент в список
+            function appendeElementList(value) {
+                const maxLength = 55;
+                const result = value.length > maxLength ? value.substring(0, maxLength) + '...' : value;
+
+                resultsList.insertAdjacentHTML("beforeEnd", `
+                    <li class="results-list__item">
+                        <div class="results-list__item-title">
+                            ${result}
+                        </div>
+
+                        <p class="results-list__item-desc"></p>
+                    </li>
+                `);
+            }
+
+            // Находим нужный елемент списка и прокидываем в него текст.
+            function appendListItemText(value) {
+                const listItems = resultsList.children;
+                const index = value.split('.')?.[0].trim();
+                const textArr = textMock.split(/[?!`.]/);
+                listItems[(+index) - 1].querySelector('.results-list__item-desc').innerHTML = textArr[index];
+            }
+
+            // Функция мапер
+            const maperFn = (value) => new Promise((resolve) => {
+                setTimeout(() => appendeElementList(value));
+                setTimeout(() => {
+                    const loadedItemsValue = loadedItems.innerHTML;
+                    loadedItems.innerHTML = +loadedItemsValue + 1;
+                    appendListItemText(value);
+                    resolve(value);
+                }, Math.round(Math.random() * 9000) + 1000);
+            });
+
+            const allPromises = [];
+            async function queue(objectsArr, mapFn, limit = 10) {
+                // Возвращаем мвсив промисов когда замапили все данные из objectsArr.
+                if (!objectsArr.length) { return allPromises; }
+                // Мапим данные и получаем лимитированое количество промисов по limit.
+                let promisesArray = objectsArr?.splice(0, limit).map(mapFn);
+                // Записываем все полученные промисы чтобы вернуть их когда замапим все данные.
+                allPromises.push(...promisesArray);
+                // Когда резолвится любой из уже существующих промисов
+                // следом вызывается функция queue и мапит следуйщий обьект из масива данных objectsArr.
+                return await Promise.any(promisesArray)
+                    .then(() => queue(objectsArr, mapFn, 1))
+                    .then(() => allPromises);
+            }
+        });
+    </script>
+</body>
+</html>
